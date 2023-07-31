@@ -20,23 +20,34 @@ export class CdkLearningStack extends cdk.Stack {
     super(scope, id, props);
 
     // L1 Bucket
-    new CfnBucket(this, 'MyL1Bucket', {
-      lifecycleConfiguration: {
-        rules: [{
-          expirationInDays: 1,
-          status: 'Enabled'
-        }]
-      }
+    // new CfnBucket(this, 'MyL1Bucket', {
+    //   lifecycleConfiguration: {
+    //     rules: [{
+    //       expirationInDays: 1,
+    //       status: 'Enabled'
+    //     }]
+    //   }
+    // })
+
+    const duration = new cdk.CfnParameter(this, "duration", {
+      default: 1,
+      minValue: 1,
+      maxValue: 10,
+      type: "Number",
     })
 
     // L2 Bucket
-    new Bucket(this, 'MyL2Bucket', {
+    const myLocalL2Bucket = new Bucket(this, 'MyL2Bucket', {
       lifecycleRules: [{
-        expiration: cdk.Duration.days(1)
+        expiration: cdk.Duration.days(duration.valueAsNumber)
       }]
     })
 
     // L3 Bucket
-    new L3Bucket(this, 'MyL4Bucket', 1)
+    // new L3Bucket(this, 'MyL4Bucket', duration.valueAsNumber)
+
+    new cdk.CfnOutput(this, 'MyL1BucketName', {
+      value: myLocalL2Bucket.bucketName
+    })
   }
 }

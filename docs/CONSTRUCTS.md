@@ -14,11 +14,16 @@ L1 constructs are automatically generated based on the AWS CloudFormation Resour
 
 ### Level 2 (L2) Constructs:
 
+- **Consider using L2 constructs for most of your AWS CDK projects.**
+- **The most popular constructs are L2 constructs.**
+
 Level 2 constructs are a higher-level abstraction built on top of the L1 constructs. They simplify the definition of AWS resources by providing more convenient and concise classes for working with common AWS resources and configurations. L2 constructs encapsulate AWS best practices and provide a more user-friendly experience compared to L1 constructs.
 
 L2 constructs handle the complexity of resource creation and configuration, making it easier for developers to define their cloud infrastructure in a more abstract and declarative manner.
 
 ### Level 3 (L3) Constructs:
+
+A construct that wraps one or more L2 or L1 constructs.
 
 Level 3 constructs are the highest-level abstraction provided by the AWS CDK. They are opinionated, pattern-oriented constructs that are designed to simplify the creation of complex AWS architectures. L3 constructs are often domain-specific and provide ready-made solutions for common use cases or architectural patterns.
 
