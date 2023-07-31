@@ -6,13 +6,11 @@ class L3Bucket extends Construct {
   constructor(scope: Construct, id: string, expirationInDays: number = 1) {
     super(scope, id);
 
-    new CfnBucket(this, 'MyL3Bucket', {
-      lifecycleConfiguration: {
-        rules: [{
-          expirationInDays,
-          status: 'Enabled'
-        }]
-      }
+    // using L2 construct
+    new Bucket(this, 'MyL3Bucket', {
+      lifecycleRules: [{
+        expiration: cdk.Duration.days(expirationInDays)
+      }]
     })
   }
 }
