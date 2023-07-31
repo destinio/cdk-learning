@@ -3,13 +3,13 @@ import { Bucket, CfnBucket } from 'aws-cdk-lib/aws-s3'
 import { Construct } from 'constructs';
 
 class L3Bucket extends Construct {
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, expirationInDays: number = 1) {
     super(scope, id);
 
     new CfnBucket(this, 'MyL3Bucket', {
       lifecycleConfiguration: {
         rules: [{
-          expirationInDays: 1,
+          expirationInDays,
           status: 'Enabled'
         }]
       }
@@ -39,6 +39,6 @@ export class CdkLearningStack extends cdk.Stack {
     })
 
     // L3 Bucket
-    new L3Bucket(this, 'MyL4Bucket')
+    new L3Bucket(this, 'MyL4Bucket', 1)
   }
 }
