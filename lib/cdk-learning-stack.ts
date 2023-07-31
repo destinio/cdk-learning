@@ -1,16 +1,44 @@
 import * as cdk from 'aws-cdk-lib';
+import { Bucket, CfnBucket } from 'aws-cdk-lib/aws-s3'
 import { Construct } from 'constructs';
-// import * as sqs from 'aws-cdk-lib/aws-sqs';
+
+class L3Bucket extends Construct {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new CfnBucket(this, 'MyL3Bucket', {
+      lifecycleConfiguration: {
+        rules: [{
+          expirationInDays: 1,
+          status: 'Enabled'
+        }]
+      }
+    })
+  }
+}
 
 export class CdkLearningStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    // The code that defines your stack goes here
+    // L1 Bucket
+    new CfnBucket(this, 'MyL1Bucket', {
+      lifecycleConfiguration: {
+        rules: [{
+          expirationInDays: 1,
+          status: 'Enabled'
+        }]
+      }
+    })
 
-    // example resource
-    // const queue = new sqs.Queue(this, 'CdkLearningQueue', {
-    //   visibilityTimeout: cdk.Duration.seconds(300)
-    // });
+    // L2 Bucket
+    new Bucket(this, 'MyL2Bucket', {
+      lifecycleRules: [{
+        expiration: cdk.Duration.days(1)
+      }]
+    })
+
+    // L3 Bucket
+    new L3Bucket(this, 'MyL4Bucket')
   }
 }
